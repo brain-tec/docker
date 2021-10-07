@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 MAINTAINER Odoo S.A. <info@odoo.com>
 
 SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
@@ -14,6 +14,8 @@ RUN apt-get update && \
         dirmngr \
         fonts-noto-cjk \
         gnupg \
+        # TO REEMOVE WHEN PACKAGED
+        gsfonts \
         libssl-dev \
         node-less \
         npm \
@@ -22,6 +24,8 @@ RUN apt-get update && \
         python3-pip \
         python3-phonenumbers \
         python3-pyldap \
+        # TO REMOVE WHEN PACKAGED
+        python3-openssl \
         python3-qrcode \
         python3-renderpm \
         python3-setuptools \
@@ -37,7 +41,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 
 # install latest postgresql-client
-RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
     && GNUPGHOME="$(mktemp -d)" \
     && export GNUPGHOME \
     && repokey='B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8' \
@@ -54,9 +58,9 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' > /etc/
 RUN npm install -g rtlcss
 
 # Install Odoo
-ENV ODOO_VERSION 14.0
+ENV ODOO_VERSION 15.0
 ARG ODOO_RELEASE=20211007
-ARG ODOO_SHA=183bc4f2d640b53d5e2fb8fc06a1915a432c9ac7
+ARG ODOO_SHA=aee026f813f334400aa49dc857d4043719f8f395
 RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
