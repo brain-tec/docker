@@ -14,8 +14,6 @@ RUN apt-get update && \
         dirmngr \
         fonts-noto-cjk \
         gnupg \
-        # TO REEMOVE WHEN PACKAGED
-        gsfonts \
         libssl-dev \
         node-less \
         npm \
@@ -24,8 +22,6 @@ RUN apt-get update && \
         python3-pip \
         python3-phonenumbers \
         python3-pyldap \
-        # TO REMOVE WHEN PACKAGED
-        python3-openssl \
         python3-qrcode \
         python3-renderpm \
         python3-setuptools \
@@ -59,8 +55,8 @@ RUN npm install -g rtlcss
 
 # Install Odoo
 ENV ODOO_VERSION 15.0
-ARG ODOO_RELEASE=20211018
-ARG ODOO_SHA=41ddb9e8ea942595786c000f87fc1e045470b2b7
+ARG ODOO_RELEASE=20211029
+ARG ODOO_SHA=1b0d6aac881aa968a77e57f529d357688786a12c
 RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
